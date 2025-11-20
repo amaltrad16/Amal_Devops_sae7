@@ -1,24 +1,28 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'Maven-3.9'
+        jdk   'JDK-17'
+    }
+
     stages {
 
-        stage('Checkout from GitHub') {
+        stage('Git Checkout') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/amaltrad16/Amal_Devops_sae7'
+                git 'https://github.com/amaltrad16/Amal_Devops_sae7.git'
             }
         }
 
-        stage('Build - Maven clean package') {
+        stage('Build Maven') {
             steps {
                 sh 'mvn clean package'
             }
         }
 
-        stage('Archive Artifact') {
+        stage('Archive') {
             steps {
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                archiveArtifacts artifacts: 'target/*.jar'
             }
         }
     }
