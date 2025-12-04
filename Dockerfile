@@ -1,16 +1,12 @@
-FROM eclipse-temurin:17-jdk
+# Étape de build Maven
+RUN mvn clean package -DskipTests
 
-# Set the working directory
-WORKDIR /app
-
-# Add this to verify the content of the target directory
+# Vérifie si le répertoire cible existe
 RUN ls -al /app/target
 
-# Copy the compiled .jar file into the image
+# Copie le fichier JAR dans l'image Docker
 COPY target/*.jar app.jar
 
-# Expose port 8080
+# Expose le port et lance l'application
 EXPOSE 8080
-
-# Define the entry point for the container
 ENTRYPOINT ["java", "-jar", "app.jar"]
